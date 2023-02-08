@@ -1,0 +1,5 @@
+ gcp_instance:  "test-instance-1"
+ gcp_command: "start"
+ gcp_zone: "us-central1-c"
+ gcp_projectID: "onyx-authority-375707"
+ image: "quay.io/manoj_dhanorkar/gcvmscheduler:v1.0"

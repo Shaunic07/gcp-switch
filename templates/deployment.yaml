@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcp-switch
+  labels:
+    app: gcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gcp
+  template:
+    metadata:
+      labels:
+        app: gcp
+    spec:
+      containers:
+      - name: mypod4
+        volumeMounts:
+        - name: foo
+          mountPath: "/etc/foo"
+          readOnly: true
+        env: 
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: "/etc/foo/confi.json" 
+          - name: gcp_instance
+            value: {{.Values.gcp_instance}}
+          - name: gcp_command 
+            value: {{.Values.gcp_command}}
+          - name: gcp_zone 
+            value: {{.Values.gcp_zone}}
+          - name: gcp_projectID 
+            value: {{.Values.gcp_projectID}}
+        image: quay.io/manoj_dhanorkar/gcvmscheduler:v1.0
+      volumes:
+      - name: foo
+        secret:
+          secretName: gcp-secret
+          optional: false # default setting; "confi" must exist
